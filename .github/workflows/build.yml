@@ -1,0 +1,19 @@
+name: build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: python tools/build.py
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: windows
+          path: pkg

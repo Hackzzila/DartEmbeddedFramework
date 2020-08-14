@@ -1,0 +1,10 @@
+sdk
+depot_tools
+
+temp
+.cipd
+.gclient
+.gclient_entries
+
+pkg
+build

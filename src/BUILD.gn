@@ -1,0 +1,63 @@
+shared_library("libdef") {
+  deps = [ ":libdartvm_def", ":dart_snapshot_cc" ]
+  sources = [ "../../../src/def.cc" ]
+  include_dirs = [ ".." ]
+}
+
+static_library("libdartvm_def") {
+  deps = [
+    ":generate_abi_version_cc_file",
+    ":standalone_dart_io",
+    "..:libdart_jit",
+    "../platform:libdart_platform_jit",
+    "//third_party/boringssl",
+    "//third_party/zlib",
+  ]
+
+  if (dart_use_tcmalloc) {
+    deps += [ "//third_party/tcmalloc" ]
+  }
+
+  libs = ["Rpcrt4.lib", "Kernel32.lib", "Psapi.lib", "Iphlpapi.lib", "Shlwapi.lib"]
+
+  sources = [
+    "$target_gen_dir/abi_version.cc",
+    "builtin.cc",
+    "dart_embedder_api_impl.cc",
+
+    "vmservice_impl.cc",
+    "vmservice_impl.h",
+  ]
+}
+
+# shared_library("libdartvm_for_embedding_nosnapshot_jit_shared") {
+#   deps = [
+#     ":generate_abi_version_cc_file",
+#     ":standalone_dart_io",
+#     "..:libdart_jit",
+#     "../platform:libdart_platform_jit",
+#     "//third_party/boringssl",
+#     "//third_party/zlib",
+#   ]
+
+#   if (dart_use_tcmalloc) {
+#     deps += [ "//third_party/tcmalloc" ]
+#   }
+
+#   libs = ["Rpcrt4.lib", "Kernel32.lib", "Psapi.lib", "Iphlpapi.lib", "Shlwapi.lib"]
+
+#   ldflags = [
+#     "/EXPORT:?InitOnce@embedder@dart@@YA_NPEAPEAD@Z",
+#     "/EXPORT:?Cleanup@embedder@dart@@YAXXZ",
+#     "/EXPORT:?PrepareForScriptLoading@DartUtils@bin@dart@@SAPEAU_Dart_Handle@@_N0@Z",
+#   ]
+
+#   sources = [
+#     "$target_gen_dir/abi_version.cc",
+#     "builtin.cc",
+#     "dart_embedder_api_impl.cc",
+
+#     "vmservice_impl.cc",
+#     "vmservice_impl.h",
+#   ]
+# }
