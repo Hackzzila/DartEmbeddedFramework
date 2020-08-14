@@ -9,6 +9,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Install Dart
+        run: choco install dart-sdk
+
       - name: Build
         run: python tools/build.py
 
